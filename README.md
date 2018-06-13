@@ -94,6 +94,18 @@ To run a single test suite:
 
     npm test test/file-name.js
 
+Some extra dependencies are needed for front-end tests:
+
+- libgtk2.0-0
+- libxss1
+- libgconf-2-4
+- libasound2
+
+If you are in a non-graphical environment you will also need xvfb and run the
+tests like this:
+
+    xvfb-run npm test
+
 
 ## License
 
