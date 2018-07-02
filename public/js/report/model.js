@@ -1,4 +1,4 @@
-/* global XLSX: false, saveAs: false, Blob: false, datenum: false */
+/* global XLSX: false, Blob: false, datenum: false */
 
 app.service('reportModel', function (bsLoadingOverlayService, connection, uuid2, FileSaver) {
     this.getReportDefinition = async function (id, isLinked) {
