@@ -143,13 +143,12 @@ app.service('ioModel', function (connection) {
             report.properties.columns.concat(
                 report.properties.xkeys,
                 report.properties.ykeys,
-                // report.properties.pivotTable.rows,
-                // report.properties.pivotTable.columns,
+                report.properties.pivotTable.rows,
+                report.properties.pivotTable.columns,
                 report.query.columns,
                 report.query.order,
                 report.query.groupFilters
             )) {
-            // TODO : uncomment the lines above after the merge with pivot table changes
             if (object && object.datasourceID) {
                 object.datasourceID = datasourceRef[object.datasourceID];
             }
@@ -182,8 +181,8 @@ app.service('ioModel', function (connection) {
                 report.properties.columns.concat(
                     report.properties.xkeys,
                     report.properties.ykeys,
-                    // report.properties.pivotTable.rows,
-                    // report.properties.pivotTable.columns,
+                    report.properties.pivotTable.rows,
+                    report.properties.pivotTable.columns,
                     report.query.columns,
                     report.query.order,
                     report.query.groupFilters
