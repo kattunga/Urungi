@@ -112,8 +112,9 @@ app.directive('reportView', function (reportModel, $compile, c3Charts, reportHtm
                 img.onload = () => $scope.$apply(function() {
                     ctx.drawImage(img, 0, 0);
                     const png = canvas.toDataURL('image/png');
-                    var html = '<img src="' + png + '" style="max-width:' + maxWidth + ';height:auto;" >';
+                    var html = '<img src="' + png + '" style="max-width:100%;height:auto;" >';
                     element.html(html);
+                    console.log('works');
                 });
             });
 
