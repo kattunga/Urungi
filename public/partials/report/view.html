@@ -4,6 +4,7 @@
     <a ng-if="selectedReport && ((selectedReport.owner == user._id) || isWSTADMIN)" ng-click="publishReport()"  
     class="btn btn-success pull-right" style="margin-right: 5px"><span ng-hide="selectedReport.isPublic">Publish</span><span ng-show="selectedReport.isPublic">Un-Publish</span></a>
     <a ng-click="goBack()" class="btn btn-default pull-right">Cancel</a>
+    <a ng-click="capture()" class="btn btn-default pull-right">export</a>
 </div>
 
     <div ng-show="selectedReport.reportType == 'grid'" class="container-fluid " style="padding-bottom: 5px;position:relative">
@@ -25,14 +26,15 @@
 
     <div ng-include src="promptsBlock" class=" prompts-block" style="position:relative"></div>
 
-    <div report-view report="selectedReport" mode="mode" style="height:100%"></div>
-    
+    <div id="view-report" report-view report="selectedReport" mode="mode" style="height:100%"></div>
 
     <!-- <div id="reportLayout" ng-init="getReportDiv()" class="container-fluid" style="min-height:200px;position:relative;padding-left:0px;padding-right:0px;height:100%"  
     bs-loading-overlay bs-loading-overlay-reference-id="OVERLAY_reportLayout">
     </div> -->
 
 </div>
+
+<!-- <iframe id="render-iframe" ng-src="{{getFullScreenUrl()}}" ng-style="renderStyle" style="position:absolute;top:-13000px;left:0px;" ></iframe> -->
 
 <div ng-include src="publishModal"></div>
 <div ng-include src="columnFormatModal"></div>

@@ -6,7 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-app.controller('reportCtrl', function ($scope, connection, $compile, reportService, queryModel, $routeParams, $timeout, $rootScope, bsLoadingOverlayService, c3Charts, reportModel, widgetsCommon, $location, PagerService) {
+app.controller('reportCtrl', function ($scope, connection, $compile, reportService, queryModel, $routeParams, $timeout, $rootScope, bsLoadingOverlayService,
+    c3Charts, reportModel, widgetsCommon, $location, PagerService, FileSaver) {
     $scope.promptsBlock = 'partials/report/partials/promptsBlock.html';
     $scope.dateModal = 'partials/report/modals/dateModal.html';
     $scope.linkModal = 'partials/report/modals/linkModal.html';
@@ -66,6 +67,11 @@ app.controller('reportCtrl', function ($scope, connection, $compile, reportServi
     $scope.fontStyles = widgetsCommon.fontStyles;
     $scope.colors = widgetsCommon.colors;
     $scope.signalOptions = widgetsCommon.signalOptions;
+
+    $scope.renderStyle = {
+        width : '750px',
+        height: '1080px'
+    };
 
     /*
     *   Initialisation
@@ -397,6 +403,49 @@ app.controller('reportCtrl', function ($scope, connection, $compile, reportServi
         $scope.selectedReport.isPublic = true;
         $scope.$digest();
         $('#publishModal').modal('hide');
+    };
+
+    $scope.getFullScreenUrl = function () {
+        return $location.absUrl().replace( $location.url(), '/reports/fullscreen/' + $scope.selectedReport._id  );
+    }
+
+    $scope.capture = async function (){
+
+        const w = 750;
+        const h = Math.floor((842/585)*w);
+
+        $scope.$broadcast('freezeToPNG');
+
+        const options = {
+            width : w,
+            height : h,
+            scrollX : 0,
+            scrollY : 0,
+            windowWidth : w,
+            windowHeight : h,
+        }
+
+        // var iframe = document.getElementById('render-iframe');
+
+        // console.log(iframe);
+
+        const el = document.getElementById('view-report');
+
+        var canvas = await html2canvas( el, options );
+        var img = canvas.toDataURL('image/png');
+
+        // var download = document.createElement('a');
+        // download.href = canvas.toDataURL('image/png');
+        // download.setAttribute('download', 'chart.png');
+        // download.dispatchEvent(new MouseEvent('click'));
+
+        var doc = new jsPDF({
+            unit: 'px',
+            format: 'a4'
+        });
+
+        doc.addImage(img, 'png', 20, 20);
+        doc.save( $scope.selectedReport.reportName + '.pdf');
     };
 
     /*

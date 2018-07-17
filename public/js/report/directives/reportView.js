@@ -12,6 +12,9 @@ app.directive('reportView', function (reportModel, $compile, c3Charts, reportHtm
             $scope.loadingMessage = '';
 
             $scope.changeContent = function (newHtml) {
+
+                $scope.html = newHtml;
+
                 var html = '<div ng-hide="loading" style="height:100%">';
                 html += newHtml;
                 html += '</div><div ng-show="loading" class="container-fluid" >';
@@ -24,6 +27,7 @@ app.directive('reportView', function (reportModel, $compile, c3Charts, reportHtm
 
             $scope.$on('repaint', async function (event, args) {
                 $scope.loading = true;
+                $scope.png = null;
 
                 if (!args) {
                     args = {};
@@ -73,6 +77,8 @@ app.directive('reportView', function (reportModel, $compile, c3Charts, reportHtm
                 $scope.loading = false;
 
                 $scope.$digest();
+
+                $scope.$emit('repaintComplete');
             });
 
             $scope.$on('clearReport', function () {
@@ -84,6 +90,33 @@ app.directive('reportView', function (reportModel, $compile, c3Charts, reportHtm
                 $scope.loading = true;
                 $scope.loadingMessage = loadingMessage;
             });
+
+            $scope.$on('freezeToPNG', function () {
+
+                if(['chart-line', 'chart-donut', 'chart-pie', 'gauge'].indexOf($scope.report.reportType) < 0){
+                    return;
+                }
+
+                var svg = document.querySelector('svg');
+                var svgData = new XMLSerializer().serializeToString(svg);
+
+                var width = $('svg').width();
+                var height = $('svg').height();
+                var canvas = document.createElement('canvas');
+                canvas.setAttribute('width', width)
+                canvas.setAttribute('height', height)
+                var ctx = canvas.getContext('2d');
+
+                var img = document.createElement('img');
+                img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData))));
+                img.onload = () => $scope.$apply(function() {
+                    ctx.drawImage(img, 0, 0);
+                    const png = canvas.toDataURL('image/png');
+                    var html = '<img src="' + png + '" style="max-width:' + maxWidth + ';height:auto;" >';
+                    element.html(html);
+                });
+            });
+
         },
 
         template: '<div class="container-fluid"  ng-show="loading" ><h3><img src="/images/loader.gif" width="32px" height="32px"/>{{loadingMessage}}</h3></div>'
