@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.7.2",
     "angular": "^1.5.11",
     "angular-bootstrap-colorpicker": "^3.0.32",
     "angular-bootstrap-datetimepicker": "^0.3.15",

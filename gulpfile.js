@@ -13,6 +13,10 @@ gulp.task('clean:css', function () {
     return del('dist/css/*');
 });
 
+gulp.task('clean:webfonts', function () {
+    return del('dist/webfonts/*');
+});
+
 gulp.task('clean:translations', function () {
     return del('dist/translations/*');
 });
@@ -77,11 +81,22 @@ gulp.task('dist:css', ['clean:css'], function () {
         'node_modules/angular-bootstrap-colorpicker/css/colorpicker.min.css',
         'node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css',
         'node_modules/cynteka-pivot-table-jquery/dist/jquery.cy-pivot.min.css',
+        'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
+        'node_modules/@fortawesome/fontawesome-free/css/v4-shims.min.css',
     ];
 
     return gulp.src(paths)
         .pipe(concat('bundle.min.css'))
         .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('dist:webfonts', ['clean:webfonts'], function () {
+    const paths = [
+        'node_modules/@fortawesome/fontawesome-free/webfonts/*',
+    ];
+
+    return gulp.src(paths)
+        .pipe(gulp.dest('dist/webfonts'));
 });
 
 gulp.task('dist:translations', ['clean:translations'], function () {
@@ -90,7 +105,7 @@ gulp.task('dist:translations', ['clean:translations'], function () {
         .pipe(gulp.dest('dist/translations'));
 });
 
-gulp.task('dist', ['dist:js', 'dist:css', 'dist:translations']);
+gulp.task('dist', ['dist:js', 'dist:css', 'dist:webfonts', 'dist:translations']);
 
 gulp.task('pot', function () {
     return gulp.src(['public/js/**/*.js', 'public/partials/**/*.html'], { base: '.' })
