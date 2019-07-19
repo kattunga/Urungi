@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - In Oracle layers, columns are now sorted by name
 
+### Fixed
+
+- Fixed a bug that prevented to add new columns to existing reports
+
 ### Removed
 
 - Removed deprecated JDBC connector for Oracle
