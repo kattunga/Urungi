@@ -31,8 +31,6 @@ var Db = function (datasource, warnings) {
     case 'MSSQL':
         client = 'mssql';
         break;
-    case 'BIGQUERY': case 'JDBC-ORACLE':
-        throw new Error('The standard connection procedure does not Support BigQuery and jdbc-Oracle. These should be accessed with legacy code');
     default:
         throw new Error('Invalid Database type : ' + String(this.type));
     }
@@ -134,7 +132,8 @@ Db.prototype.getSchema = async function (collection) {
         query = (knex) =>
             knex.select({ table_schema: knex.raw('user') }, { table_name: 'TABLE_NAME' }, { column_name: 'COLUMN_NAME' }, { data_type: knex.raw('LOWER(data_type)') })
                 .from('USER_TAB_COLUMNS')
-                .where('TABLE_NAME', collection.name);
+                .where('TABLE_NAME', collection.name)
+                .orderBy('COLUMN_NAME');
         break;
     }
 
@@ -200,6 +199,7 @@ exports.testConnection = async function (params) {
         testQueries = [
             (qb) => qb.select('TABLE_NAME', 'COLUMN_NAME', 'DATA_TYPE')
                 .from('USER_TAB_COLUMNS')
+                .orderBy('COLUMN_NAME')
         ];
         break;
     }

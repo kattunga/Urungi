@@ -12,7 +12,6 @@ and others, see [Supported databases](#supported-databases)
 - MySQL
 - MS SQL Server
 - Oracle
-- Google Big Query (DEPRECATED)
 
 
 ## Requirements
@@ -20,8 +19,6 @@ and others, see [Supported databases](#supported-databases)
 - [nodejs](https://nodejs.org) (>= 8.x)
 - [npm](https://www.npmjs.com)
 - [MongoDB](https://www.mongodb.org) (>= 3.4)
-- [OpenJDK](http://openjdk.java.net/install/)
-- g++ and make (package build-essential on Debian-based distributions)
 
 
 ## Installation
@@ -37,13 +34,21 @@ and others, see [Supported databases](#supported-databases)
 3. Download and install dependencies
 
     ```
+    # In development environment
     npm ci
+    
+    # In production environment
+    npm ci --only=production
     ```
 
 4. Run MongoDB migrations
 
     ```
+    # In development environment
     npx migrate-mongo up
+    
+    # In production environment
+    NODE_ENV=production npx migrate-mongo up
     ```
 
 5. (Optional but recommended) Create a local config file and change the
@@ -101,13 +106,21 @@ To upgrade Urungi to the latest version, follow these steps:
 2. Update dependencies
 
     ```
+    # In development environment
     npm ci
+    
+    # In production environment
+    npm ci --only=production
     ```
 
 3. Update database
 
     ```
+    # In development environment
     npx migrate-mongo up
+    
+    # In production environment
+    NODE_ENV=production npx migrate-mongo up
     ```
 
 4. Restart the server

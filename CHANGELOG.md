@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed queries with multiple filters
+
+### Removed
+
+- Removed deprecated JDBC connector for Oracle
+- Removed deprecated connector for Google BigQuery
+
 ## [1.1.1] - 2019-07-12
 
 ### Changed
